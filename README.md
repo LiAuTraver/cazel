@@ -31,3 +31,33 @@ platform(
     visibility = ["//visibility:public"],
 )
 ```
+
+in the `.bazelrc` file, add the following:
+```bash
+#####################
+
+# Enable disk cache
+build --disk_cache=~/.bazel/disk_cache/
+
+#################################
+## Toolchain debugging options ##
+#################################
+
+# Verbose output to know what toolchains are selected
+build --toolchain_resolution_debug
+
+###################################
+## Config options for toolchains ##
+###################################
+
+# Do not use automatically generated toolchains
+build --action_env=BAZEL_DO_NOT_DETECT_CPP_TOOLCHAIN=1
+
+# Do not use the deprecated toolchain resolution system with --cpu and --crosstool_top
+build --incompatible_enable_cc_toolchain_resolution
+
+build --platforms=//platform:windows_x64
+build --toolchain_resolution_debug
+build --extra_toolchains=//bazel/toolchain:Windows_MSVC
+build --verbose_failures
+```
